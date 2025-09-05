@@ -21,9 +21,20 @@ class AppTest {
         //Entao
         assert driver.getCurrentUrl().equals("https://www.saucedemo.com/v1/inventory.html");
         assert driver.findElement(By.id("shopping_cart_container")).isDisplayed();
+        assert driver.findElement(By.id("inventory_container")).isDisplayed();
+        driver.findElement(By.id("shopping_cart_container")).click();
 
 
-        driver.quit();
+        //Carrinho de compras
+        assert driver.getCurrentUrl().equals("https://www.saucedemo.com/v1/cart.html");
+        assert driver.findElement(By.id("cart_contents_container")).isDisplayed();
+        driver.findElement(By.className("checkout_button")).click();
+
+
+        //Checkout
+        assert driver.getCurrentUrl().equals("https://www.saucedemo.com/v1/checkout-step-one.html");
+        assert driver.findElement(By.id("first-name")).isDisplayed();
+        
 
 
 
