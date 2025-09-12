@@ -34,9 +34,58 @@ class AppTest {
         //Checkout
         assert driver.getCurrentUrl().equals("https://www.saucedemo.com/v1/checkout-step-one.html");
         assert driver.findElement(By.id("first-name")).isDisplayed();
+
+        driver.quit();
+
+    }
+    
+    @Test
+    public void loginincorreto() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/v1/");
+
+        driver.findElement(By.id("user-name")).sendKeys("usuario_invalido");
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        //Mensagem de erro
+        assert driver.findElement(By.cssSelector("[data-test='error']")).isDisplayed();
+
+        driver.quit();
+    }
+
+    @Test
+    public void loginUsuarioCorretoSenhaIncorreta() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/v1/");
+
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.id("password")).sendKeys("senha_errada");
+        driver.findElement(By.id("login-button")).click();
+
+        //Mensagem de erro
+        assert driver.findElement(By.cssSelector("[data-test='error']")).isDisplayed();
+
+        driver.quit();
+    }
+
+    @Test
+    public void loginUsuarioSenhaIncorretos() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/v1/");
+
+        driver.findElement(By.id("user-name")).sendKeys("usuario_invalido");
+        driver.findElement(By.id("password")).sendKeys("senha_errada");
+        driver.findElement(By.id("login-button")).click();
+
+        //Mensagem de erro
+        assert driver.findElement(By.cssSelector("[data-test='error']")).isDisplayed();
+
+        driver.quit();
+    } 
         
 
 
 
-    }
 }
+
