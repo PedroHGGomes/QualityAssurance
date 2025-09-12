@@ -40,7 +40,7 @@ class AppTest {
     }
     
     @Test
-    public void loginincorreto() {
+    public void loginIncorreto() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/v1/");
 
@@ -55,12 +55,10 @@ class AppTest {
     }
 
     @Test
-    public void loginUsuarioCorretoSenhaIncorreta() {
+    public void loginVazio() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/v1/");
 
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("senha_errada");
         driver.findElement(By.id("login-button")).click();
 
         //Mensagem de erro
@@ -70,7 +68,7 @@ class AppTest {
     }
 
     @Test
-    public void loginUsuarioSenhaIncorretos() {
+    public void loginAmbosIncorretos() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com/v1/");
 
