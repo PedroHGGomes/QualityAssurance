@@ -65,7 +65,7 @@ class TC01TesteMoto {
 
         // GitHub login page
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field"))).sendKeys("pedro.gomes.10@outlook.com.br");
-        driver.findElement(By.id("password")).sendKeys("M@ntei");
+        driver.findElement(By.id("password")).sendKeys("M@nteigadecacau1");
         driver.findElement(By.name("commit")).click();
 
         // Dashboard
@@ -92,7 +92,7 @@ class TC01TesteMoto {
         WebElement btnSalvar = wait.until(ExpectedConditions.elementToBeClickable(
                 By.cssSelector("button.btn.btn-primary[type='submit']")
         ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnSalvar); // evita click interceptado
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnSalvar); 
 
         // Valida mensagem de erro
         WebElement mensagem = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -106,8 +106,6 @@ class TC01TesteMoto {
         driver.quit();
     }
     }
-
-        
 
 
 
