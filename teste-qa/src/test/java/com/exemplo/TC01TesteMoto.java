@@ -121,6 +121,69 @@ public void loginTest() {
     }
     }
 
+    //Teste com os campos preenchidos
+    @Test
+    public void AddTest() {
+    WebDriver driver = new ChromeDriver();
+    driver.manage().window().maximize();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    try {
+        // Login page
+        driver.get("https://challengejavasprint3.onrender.com/login");
+        Assertions.assertEquals("https://challengejavasprint3.onrender.com/login", driver.getCurrentUrl());
+
+        // Click login with GitHub
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/oauth2/authorization/github']"))).click();
+
+        // GitHub login page
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_field"))).sendKeys("pedro.gomes.10@outlook.com.br");
+        driver.findElement(By.id("password")).sendKeys("M@nteigadecacau1");
+        driver.findElement(By.name("commit")).click();
+
+        // Dashboard
+        wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/"));
+        Assertions.assertEquals("https://challengejavasprint3.onrender.com/", driver.getCurrentUrl());
+
+        // Gestão de motos
+        wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Gestão"))).click();
+
+        wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/motos"));
+        Assertions.assertEquals("https://challengejavasprint3.onrender.com/motos", driver.getCurrentUrl());
+
+        // Valida título
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//h1[contains(text(),'Gestão de Motos')]")
+        ));
+
+        // Clica no botão "Adicionar Moto"
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("a[href='/motos/new']")
+        )).click();
+
+        // Preenche os campos do formulário
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modelo"))).sendKeys("HONDA CB 500X");
+        driver.findElement(By.id("placa")).sendKeys("ABD-9876");
+        Select statusSelect = new Select(wait.until(
+        ExpectedConditions.elementToBeClickable(By.id("status"))
+        ));
+        statusSelect.selectByVisibleText("Em manutenção");
+
+        // Salva preenchendo os campos
+        WebElement btnSalvar = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("button.btn.btn-primary[type='submit']")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnSalvar); 
+
+        //Valida o sucesso
+        wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/motos?sucesso=true"));
+        Assertions.assertEquals("https://challengejavasprint3.onrender.com/motos?sucesso=true", driver.getCurrentUrl());
+
+    } finally {
+        driver.quit();
+    }
+    }
+
     //Teste para preencher os campos - Perfil
     @Test
     public void ProfileTest() {
