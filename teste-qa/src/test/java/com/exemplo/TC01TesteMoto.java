@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.Select;
 
 class TC01TesteMoto {
     //Teste para garantir a existência da página de gestão de motos
@@ -144,35 +145,39 @@ public void loginTest() {
         wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/"));
         Assertions.assertEquals("https://challengejavasprint3.onrender.com/", driver.getCurrentUrl());
 
-        // Gestão de motos
-        wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Gestão"))).click();
+        // Gestão de perfil
+        wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Perfil"))).click();
 
-        wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/motos"));
-        Assertions.assertEquals("https://challengejavasprint3.onrender.com/motos", driver.getCurrentUrl());
+        wait.until(ExpectedConditions.urlToBe("https://challengejavasprint3.onrender.com/usuario"));
+        Assertions.assertEquals("https://challengejavasprint3.onrender.com/usuario", driver.getCurrentUrl());
 
         // Valida título
         wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//h1[contains(text(),'Gestão de Motos')]")
+                By.xpath("//h2[contains(text(),'Perfil do Usuário')]")
         ));
 
-        // Clica no botão "Adicionar Moto"
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector("a[href='/motos/new']")
-        )).click();
+        // Preenche os campos do formulário
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nomeCompleto"))).sendKeys("Pedro Henrique Gonçalves Gomes");
+        driver.findElement(By.id("email")).sendKeys("pedro.gomes.10@outlook.com.br");
+        driver.findElement(By.id("telefone")).sendKeys("11966100100");
+        Select cargoSelect = new Select(wait.until(
+        ExpectedConditions.elementToBeClickable(By.id("cargo"))
+        ));
+        cargoSelect.selectByVisibleText("Analista de Sistemas");
 
-        // Tenta salvar sem preencher nada
+        // Clica no botão "Salvar alterações"
         WebElement btnSalvar = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector("button.btn.btn-primary[type='submit']")
+                By.cssSelector("button.btn.btn-success[type='submit']")
         ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnSalvar); 
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnSalvar);
 
-        // Valida mensagem de erro
-        WebElement mensagem = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//span[normalize-space()='Modelo é obrigatório']")
+        // Valida mensagem de sucesso
+        WebElement alertaSucesso = wait.until(ExpectedConditions.visibilityOfElementLocated(
+        By.xpath("//div[contains(@class, 'alert-success') and contains(normalize-space(), 'Perfil atualizado com sucesso!')]")
         ));
 
-        Assertions.assertTrue(mensagem.isDisplayed());
-        Assertions.assertEquals("Modelo é obrigatório", mensagem.getText());
+        Assertions.assertTrue(alertaSucesso.isDisplayed());
+        Assertions.assertEquals("Perfil atualizado com sucesso!", alertaSucesso.getText().trim());
 
     } finally {
         driver.quit();
